@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Cliente" ALTER COLUMN "rendaMensal" SET DATA TYPE DOUBLE PRECISION;

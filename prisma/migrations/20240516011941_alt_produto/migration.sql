@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Produto" ALTER COLUMN "valorMinimoAporteInicial" SET DATA TYPE DOUBLE PRECISION,
+ALTER COLUMN "valorMinimoAporteExtra" SET DATA TYPE DOUBLE PRECISION;

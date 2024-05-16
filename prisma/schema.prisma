@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id               Int      @id @default(autoincrement())
+  cpf              String
+  nome             String?
+  email            String   @unique
+  genero           String
+  dataDeNascimento DateTime
+  rendaMensal      Float
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  Plano            Plano[]
+ 
+}
+
+model Produto {
+  id                       Int      @id @default(autoincrement())
+  nome                     String
+  susep                    String
+  expiracaoDeVenda         DateTime
+  valorMinimoAporteInicial Float
+  valorMinimoAporteExtra   Float
+  idadeDeEntrada           Int
+  idadeDeSaida             Int
+  carenciaInicialDeResgate Int
+  carenciaEntreResgates    Int
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+  Plano                    Plano[]
+  extraId                  Int?
+}
+
+model Plano {
+  id                   Int      @id @default(autoincrement())
+  Cliente              Cliente  @relation(fields: [idCliente], references: [id])
+  Produto              Produto  @relation(fields: [idProduto], references: [id])
+  idCliente            Int      
+  idProduto            Int      
+  aporte               Int
+  dataDaContratacao    DateTime
+  idadeDeAposentadoria Int
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  Resgate              Resgate?
+
+}
+
+model Resgate {
+  id           Int      @id @default(autoincrement())
+  Plano        Plano    @relation(fields: [idPlano], references: [id])
+  idPlano      Int      @unique
+  valorResgate Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
